@@ -9,6 +9,9 @@ const AsyncMiddleware = ({ dispatch }) => next => action => {
   action.payload.then(response => {
     const newAction = { ...action, payload: response };
     dispatch(newAction);
+    // We don't let this hit a return next(action) because we want to
+    // restart the action to start at the top of the middleware chain
+    // and work its way through all of the steps.
   });
 };
 
